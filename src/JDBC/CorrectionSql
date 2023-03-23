@@ -1,0 +1,48 @@
+
+
+
+
+-- On selectionne tout les joueurs
+select*from tennis.joueur;
+
+-- On les jourrs dont le sex est feminin
+
+select * from joueur where  SEXE = 'F';
+-- les joueurs de roland garros
+
+select*from tournoi where nom like'Ro%';
+-- les joueurs qui ont un id
+select * from match_tennis where id;
+
+-- SELECT *FROM JOUEUR
+         -- JOIN MATCH_TENNIS ON JOUEUR.ID = MATCH_TENNIS.ID_VAINQUEUR OR JOUEUR.ID = MATCH_TENNIS.ID_FINALISTE
+        --  JOIN EPREUVE ON MATCH_TENNIS.ID_EPREUVE = EPREUVE.ID
+-- WHERE EPREUVE.ID = 53;
+
+-- On affiche les ids des joueurs qui ont participé à l'epreuve 53
+
+select * from match_tennis where ID_EPREUVE = 53;
+
+-- Obtenir le nombre de tournois chaque année
+SELECT ANNEE, COUNT(*) as NB_TOURNOIS
+FROM TOURNOI
+         INNER JOIN EPREUVE ON TOURNOI.ID = EPREUVE.ID_TOURNOI
+GROUP BY ANNEE;
+
+-- Obtenir le nombre de match joués pour chaque joueurs
+
+SELECT JOUEUR.ID, JOUEUR.NOM, JOUEUR.PRENOM, COUNT(*) as NB_MATCHS
+FROM JOUEUR
+         INNER JOIN MATCH_TENNIS ON JOUEUR.ID = MATCH_TENNIS.ID_VAINQUEUR OR JOUEUR.ID = MATCH_TENNIS.ID_FINALISTE
+GROUP BY JOUEUR.ID, JOUEUR.NOM, JOUEUR.PRENOM;
+
+-- Trouver les finalistes de l'épreuve homme de l'année 2013 du tournoi de Roland Garos
+
+SELECT J1.ID as ID_FINALISTE_1, J1.NOM as NOM_FINALISTE_1, J1.PRENOM as PRENOM_FINALISTE_1,
+       J2.ID as ID_FINALISTE_2, J2.NOM as NOM_FINALISTE_2, J2.PRENOM as PRENOM_FINALISTE_2
+FROM MATCH_TENNIS
+         INNER JOIN EPREUVE ON MATCH_TENNIS.ID_EPREUVE = EPREUVE.ID
+         INNER JOIN JOUEUR J1 ON MATCH_TENNIS.ID_FINALISTE = J1.ID
+         INNER JOIN JOUEUR J2 ON MATCH_TENNIS.ID_VAINQUEUR = J2.ID
+WHERE EPREUVE.ANNEE = 2013 AND EPREUVE.TYPE_EPREUVE = 'H' AND EPREUVE.ID_TOURNOI = (SELECT ID FROM TOURNOI WHERE NOM = 'Roland Garos');
+

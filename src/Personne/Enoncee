@@ -1,0 +1,11 @@
+
+
+• Créer une classe personne ayant comme attributs le nom, prenom, date naiss.
+• Dans le main, créer deux listes de personnes liste1 et liste2,
+ • créer 5 objets personnes (pi,p2,p3,P4,p5)
+ • Insérer dans listel (p1,P3,P4,P5) à l'aide la méthode add.
+ • Insérer p2 entre p1 et p3 à l'aide de la méthode add(index, objet)
+• Copiez la liste1 dans liste2 à l'aide de la méthode addAll(list).
+• Remplacer un élément de votre liste par un autre élément à l'aide de la méthode set(index.objet)
+ • Parcourir la liste à l'aide de iterable
+ • Vérifier si un objet de type personne de votre choix existe dans votre liste à l'aide de la méthode indexof()

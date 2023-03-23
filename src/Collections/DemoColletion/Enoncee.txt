@@ -1,0 +1,8 @@
+
+
+• Créer une classe qui s'арреlle DemoGenerics.
+• Cette classe est dotée d'une methode static fromArraToCollection ayant deux parametres un tableau de type generique
+et d'une liste de type generique. Cette methode соріе le  contenu du tableau dans la liste.
+une methode static void tryWithStrings() qui appelle lа methode fromArravToCollection et affiche lе contenu de la liste. •
+Une methode static void trvWithDouЫes() qui арреllе lа methode fromArraToCollection et affiche lе contenu de la liste.
+• А partir du main testez votre code .

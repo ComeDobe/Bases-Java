@@ -1,0 +1,42 @@
+package JDBC;
+
+import java.sql.Connection;
+import java.sql.DatabaseMetaData;
+import java.sql.DriverManager;
+import java.sql.Statement;
+
+public class Connexion {
+
+    public static void main(String[] args) {
+
+        try {
+            // Chargement du driver JDBC pour la base de données
+           // Class.forName("com.mysql.jdbc.Driver");
+
+            // Connexion à la base de données
+            Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/tennis?useSSL=false&useLegacyDatetimeCode=false&serverTimezone=Europe/Paris", "root", "");
+
+            // Vérifier si le pilote prend en charge les mises à jour en lot
+            DatabaseMetaData meta = conn.getMetaData();
+            if (meta.supportsBatchUpdates()) {
+                System.out.println("Le pilote prend en charge les mises à jour en lot.");
+            } else {
+                System.out.println("Le pilote ne prend pas en charge les mises à jour en lot.");
+            }
+
+            // Exemple de mise à jour en lot sur la table "joueur"
+            Statement stmt = conn.createStatement();
+            stmt.addBatch("UPDATE joueur SET score = score + 10 WHERE id = 1");
+            stmt.addBatch("UPDATE joueur SET score = score + 20 WHERE id = 2");
+            stmt.addBatch("UPDATE joueur SET score = score + 30 WHERE id = 3");
+            int[] updateCounts = stmt.executeBatch();
+            System.out.println("Nombre de lignes mises à jour : " + updateCounts.length);
+
+            // Fermeture de la connexion
+            conn.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+}
+

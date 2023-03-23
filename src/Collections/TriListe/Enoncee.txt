@@ -1,0 +1,36 @@
+
+• Écrire un programme permettant de remplir une liste avec chaines de caractère,
+ ensuite afficher les éléments de cette liste dans un ordre croissant.
+
+ Note:  La méthode static sort de la classe Collections permet de trier une Liste.
+
+ import java.util.ArrayList;
+ import java.util.Collections;
+ import java.util.List;
+ import java.util.Scanner;
+
+ public class TriListe {
+     public static void main(String[] args) {
+         Scanner scanner = new Scanner(System.in);
+         List<String> liste = new ArrayList<String>();
+
+         // Demande à l'utilisateur de saisir les éléments de la liste
+         System.out.println("Veuillez saisir les éléments de la liste (saisir 'fin' pour terminer) :");
+         String element = "";
+         while (!element.equals("fin")) {
+             element = scanner.nextLine();
+             if (!element.equals("fin")) {
+                 liste.add(element);
+             }
+         }
+
+         // Trie la liste dans l'ordre croissant
+         Collections.sort(liste);
+
+         // Affiche les éléments de la liste triée
+         System.out.println("Les éléments de la liste triée sont :");
+         for (String str : liste) {
+             System.out.println(str);
+         }
+     }
+ }

@@ -1,0 +1,8 @@
+
+
+
+
+Créer une classe Produit ayant comme attribut nom, prix et la quantité.
+Mettre les produits dans une liste et les afficher.
+Les produits doivent être trié, par nom, puis par prix si les noms sont égaux, et enfin par quantité si les noms et les prix sont égaux.
+Indication : penser à l'interface comparable et aux méthodes compare de la classe Double et Integer .

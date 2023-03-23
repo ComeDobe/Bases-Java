@@ -1,0 +1,9 @@
+
+• Définir une classe Stagiaire avec les attributs suivants : nom et prénom.
+ • Définir un constructeur permettant d'initialiser les attributs d'un objet stagiaire.
+• Définir la méthode toString ( ) permettant d'afficher les informations d'un stagiaire.
+ • Écrire un programme testant la classe Stagiaire. Déclarer une collection d'objet stagiaire
+ . Ajouter des stagiaires dans la collection. Afficher la liste des stagiaires.
+ • Modifier la classe de teste pour afficher la liste des stagiaires triée dans un ordre alphabétique des noms,
+  si des stagiaires ont le même nom, ils seront triés en ordre alphabétique des prénoms. (pensez à utiliser Comparable)
+

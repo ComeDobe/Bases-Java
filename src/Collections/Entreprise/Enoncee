@@ -1,0 +1,414 @@
+
+Partie I
+
+• Créez une classe Entreprise. Une entreprise aura un nom et aura des employés que vous enregistrerez à l'aide d'un ArravList<Emplove>.
+• Il devra être possible d'ajouter et d'enlever des employés dans une entreprise.
+• Utilisez une classe d'exception pour les cas où, par exemple, on veut ajouter un employé dans une entreprise dans laquelle il travaille déjà.
+ (le même cas pour la suppression)
+• Vous écrirez une méthode toString qui décrit une entreprise en affichant son nom et les noms de tous ses employés;
+• Pour tester, ajoutez quelques employés dans 2 entreprises et faites afficher les noms des entreprises et de leurs employés.
+
+Partie II
+
+Entreprise IBM
+• EmplyeHoraire("Poiret", 42, 75.00, 0.25));
+• Commercial("Dupond", 5000, 50000));
+ Entreprise SUN
+• Commercial("Ravier", 6000, 40000));
+• EmployeHoraire("Burot", 45, 105.00, 0.1));
+• new Commercial("Terriee", 3000, 70000));
+• EmployeHoraire("Pernaut", 32, 125.00, 0.2));
+
+Partie III
+
+• Ajoutez une méthode dans la classe Entreprise qui renvoie un itérateur pour obtenir tous les employés de l'entreprise.
+• Dans la méthode main, utilisez cet itérateur pour calculer le total des salaires des employés de chacune des 2 entreprises.
+• Faites les modifications pour qu'on puisse parcourir tous les employés d'une entreprise avec une boucle "for-each" : "for (Employe employe : entreprise) ...".
+• Toujours dans la méthode main, faites afficher les noms et salaires des employés de l'une des entreprises, par ordre alphabétique . Pour cela, vous modifierez la classe Employe pour qu'elle implémente l'interface Comparable.
+• Vous donnerez l'ordre alphabétique comme ordre "naturel" des employés. Dans la méthode main vous copierez tous les employés dans une liste que vous trierez (vous utiliserez la classe Collections)
+
+Partie IV
+
+.Faites afficher les noms et salaires des employés de l'une des entreprises, classés par salaire décroissant, puis par salaire croissant. Pour cela,
+. créez une classe qui implémente l'interface Comparator pour comparer les employés par leur salaire,
+. dans la méthode main, ajoutez tous les employés dans une liste des employés de l'entreprise et triez la liste avec ce comparateur.
+Faites afficher par ordre alphabétique les noms des employés des 2 entreprises réunies trié par ordre alphabétique .
+
+
+partie I ***************
+
+import java.util.ArrayList;
+
+public class Entreprise {
+    private String nom;
+    private ArrayList<Employe> employes;
+
+    public Entreprise(String nom) {
+        this.nom = nom;
+        this.employes = new ArrayList<Employe>();
+    }
+
+    public void embaucher(Employe employe) throws EmployeDejaPresentException {
+        if (employes.contains(employe)) {
+            throw new EmployeDejaPresentException();
+        }
+        employes.add(employe);
+    }
+
+    public void licencier(Employe employe) throws EmployeInexistantException {
+        if (!employes.contains(employe)) {
+            throw new EmployeInexistantException();
+        }
+        employes.remove(em @Override
+                              public String toString() {
+                                  StringBuilder sb = new StringBuilder();
+                                  sb.append("Entreprise : ");
+                                  sb.append(nom);
+                                  sb.append("\nEmployes : ");
+                                  for (Employe employe : employes) {
+                                      sb.append("\n- ");
+                                      sb.append(employe.getNom());
+                                  }
+                                  return sb.toString();ploye);
+    }
+
+
+    }
+}
+
+Exception  ******************
+
+public class EmployeDejaPresentException extends Exception {
+    public EmployeDejaPresentException() {
+        super("L'employé est déjà présent dans l'entreprise.");
+    }
+}
+
+public class EmployeInexistantException extends Exception {
+    public EmployeInexistantException() {
+        super("L'employé n'est pas présent dans l'entreprise.");
+    }
+}
+
+Main ****************
+
+
+public static void main(String[] args) {
+    Entreprise entreprise1 = new Entreprise("Acme");
+    Entreprise entreprise2 = new Entreprise("Beta");
+
+    Employe employe1 = new Employe("Alice");
+    Employe employe2 = new Employe("Bob");
+    Employe employe3 = new Employe("Charlie");
+
+    try {
+        entreprise1.embaucher(employe1);
+        entreprise1.embaucher(employe2);
+        entreprise2.embaucher(employe2);
+        entreprise2.embaucher(employe3);
+    } catch (EmployeDejaPresentException e) {
+        System.out.println(e.getMessage());
+    }
+
+    System.out.println(entreprise1);
+    System.out.println(entreprise2);
+
+    try {
+        entreprise1.licencier(employe2);
+        entreprise2.licencier(employe1);
+        entreprise2.licencier(employe3);
+        entreprise2.licencier(new Employe("Inconnu"));
+    } catch (EmployeInexistantException e) {
+        System.out.println(e.getMessage());
+    }
+
+    System.out.println(entreprise1);
+    System.out.println(entreprise2);
+
+Partie II
+
+2eme Main *****************
+
+public static void main(String[] args) {
+    Entreprise ibm = new Entreprise("IBM");
+    ibm.embaucher(new EmployeHoraire("Poiret", 42, 75.00, 0.25));
+    ibm.embaucher(new Commercial("Dupond", 5000, 50000));
+    System.out.println(ibm);
+
+    Entreprise sun = new Entreprise("SUN");
+    sun.embaucher(new Commercial("Ravier", 6000, 40000));
+    sun.embaucher(new EmployeHoraire("Burot", 45, 105.00, 0.1));
+    sun.embaucher(new Commercial("Terriee", 3000, 70000));
+    sun.embaucher(new EmployeHoraire("Pernaut", 32, 125.00, 0.2));
+    System.out.println(sun);
+}
+
+
+partie  III *********************
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Iterator;
+import java.util.List;
+
+public class Entreprise {
+    private String nom;
+    private List<Employe> employes;
+
+    public Entreprise(String nom) {
+        this.nom = nom;
+        this.employes = new ArrayList<>();
+    }
+
+    public String getNom() {
+        return nom;
+    }
+
+    public void ajouterEmploye(Employe employe) throws EmployeDejaPresentException {
+        if (this.employes.contains(employe)) {
+            throw new EmployeDejaPresentException("Cet employé est déjà présent dans l'entreprise.");
+        }
+        this.employes.add(employe);
+    }
+
+    public void enleverEmploye(Employe employe) throws EmployeNonPresentException {
+        if (!this.employes.contains(employe)) {
+            throw new EmployeNonPresentException("Cet employé n'est pas présent dans l'entreprise.");
+        }
+        this.employes.remove(employe);
+    }
+
+    public Iterator<Employe> iterator() {
+        return this.employes.iterator();
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("Entreprise : ");
+        sb.append(this.nom);
+        sb.append("\n");
+        for (Employe employe : this.employes) {
+            sb.append(employe);
+            sb.append("\n");
+        }
+        return sb.toString();
+    }
+
+Main ********************
+
+    public static void main(String[] args) {
+        Entreprise ibm = new Entreprise("IBM");
+        Entreprise sun = new Entreprise("SUN");
+
+        try {
+            ibm.ajouterEmploye(new EmployeHoraire("Poiret", 42, 75.00, 0.25));
+            ibm.ajouterEmploye(new Commercial("Dupond", 5000, 50000));
+            sun.ajouterEmploye(new Commercial("Ravier", 6000, 40000));
+            sun.ajouterEmploye(new EmployeHoraire("Burot", 45, 105.00, 0.1));
+            sun.ajouterEmploye(new Commercial("Terriee", 3000, 70000));
+            sun.ajouterEmploye(new EmployeHoraire("Pernaut", 32, 125.00, 0.2));
+        } catch (EmployeDejaPresentException e) {
+            System.out.println(e.getMessage());
+        }
+
+        double totalSalairesIBM = 0;
+        Iterator<Employe> iterIBM = ibm.iterator();
+        while (iterIBM.hasNext()) {
+            Employe employe = iterIBM.next();
+            totalSalairesIBM += employe.salaire();
+        }
+        System.out.println("Total des salaires de l'entreprise IBM : " + totalSalairesIBM);
+
+        double totalSalairesSUN = 0;
+        for (Employe employe : sun) {
+            totalSalairesSUN += employe.salaire();
+        }
+        System.out.println("Total des salaires de l'entreprise SUN : " + totalSalairesSUN);
+
+        List<Employe> employesSun = new ArrayList<>(sun.iterator());
+        Collections.sort(employesSun);
+        System.out.println("Liste des employés de l'entreprise SUN, par ordre alphabétique :");
+        for (Employe employe : employesSun) {
+            System.out.println(employe.getNom() + " : " + employe.s
+
+
+          Partie IV
+
+
+          import java.util.ArrayList;
+          import java.util.Collections;
+          import java.util.Comparator;
+          import java.util.Iterator;
+          import java.util.List;
+
+          class Entreprise implements Iterable<Employe> {
+
+              private String nom;
+              private List<Employe> employes;
+
+              public Entreprise(String nom) {
+                  this.nom = nom;
+                  this.employes = new ArrayList<>();
+              }
+
+              public void ajouterEmploye(Employe employe) throws EmployeDejaPresentException {
+                  if (this.employes.contains(employe)) {
+                      throw new EmployeDejaPresentException();
+                  }
+                  this.employes.add(employe);
+              }
+
+              public void supprimerEmploye(Employe employe) throws EmployeAbsentException {
+                  if (!this.employes.remove(employe)) {
+                      throw new EmployeAbsentException();
+                  }
+              }
+
+              public String getNom() {
+                  return nom;
+              }
+
+              @Override
+              public Iterator<Employe> iterator() {
+                  return employes.iterator();
+              }
+          }
+
+          class Employe implements Comparable<Employe> {
+
+              private String nom;
+              private double salaire;
+
+              public Employe(String nom, double salaire) {
+                  this.nom = nom;
+                  this.salaire = salaire;
+              }
+
+              public String getNom() {
+                  return nom;
+              }
+
+              public double getSalaire() {
+                  return salaire;
+              }
+
+              @Override
+              public String toString() {
+                  return nom + " (" + salaire + ")";
+              }
+
+              @Override
+              public int compareTo(Employe autre) {
+                  return this.nom.compareTo(autre.nom);
+              }
+          }
+
+          class EmployeHoraire extends Employe {
+
+              private int heuresTravaillees;
+              private double tauxHoraire;
+              private double tauxSupplementaire;
+
+              public EmployeHoraire(String nom, int heuresTravaillees, double tauxHoraire, double tauxSupplementaire) {
+                  super(nom, 0);
+                  this.heuresTravaillees = heuresTravaillees;
+                  this.tauxHoraire = tauxHoraire;
+                  this.tauxSupplementaire = tauxSupplementaire;
+              }
+
+              @Override
+              public double getSalaire() {
+                  double salaire = heuresTravaillees * tauxHoraire;
+                  if (heuresTravaillees > 40) {
+                      salaire += (heuresTravaillees - 40) * tauxHoraire * tauxSupplementaire;
+                  }
+                  return salaire;
+              }
+          }
+
+          class Commercial extends Employe {
+
+              private double ventes;
+              private double commission;
+
+              public Commercial(String nom, double ventes, double commission) {
+                  super(nom, 0);
+                  this.ventes = ventes;
+                  this.commission = commission;
+              }
+
+              @Override
+              public double getSalaire() {
+                  return commission + 0.01 * ventes;
+              }
+          }
+
+          class SalaireComparator implements Comparator<Employe> {
+
+              @Override
+              public int compare(Employe emp1, Employe emp2) {
+                  double diff = emp2.getSalaire() - emp1.getSalaire();
+                  if (diff == 0) {
+                      return emp1.getNom().compareTo(emp2.getNom());
+                  } else {
+                      return Double.compare(diff
+
+
+Main *********************
+
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+
+public class Main {
+    public static void main(String[] args) {
+        Entreprise ibm = new Entreprise("IBM");
+        ibm.ajouterEmploye(new EmployeHoraire("Poiret", 42, 75.00, 0.25));
+        ibm.ajouterEmploye(new Commercial("Dupond", 5000, 50000));
+
+        Entreprise sun = new Entreprise("SUN");
+        sun.ajouterEmploye(new Commercial("Ravier", 6000, 40000));
+        sun.ajouterEmploye(new EmployeHoraire("Burot", 45, 105.00, 0.1));
+        sun.ajouterEmploye(new Commercial("Terriee", 3000, 70000));
+        sun.ajouterEmploye(new EmployeHoraire("Pernaut", 32, 125.00, 0.2));
+
+        // Afficher les noms et salaires des employés d'une entreprise, triés par ordre alphabétique
+        System.out.println("Employés de l'entreprise IBM par ordre alphabétique:");
+        ArrayList<Employe> ibmEmployes = ibm.getEmployes();
+        Collections.sort(ibmEmployes);
+        for (Employe employe : ibmEmployes) {
+            System.out.println(employe.getNom() + " : " + employe.getSalaire());
+        }
+
+        // Afficher les noms et salaires des employés d'une entreprise, triés par salaire décroissant puis croissant
+        System.out.println("\nEmployés de l'entreprise SUN par salaire décroissant puis croissant:");
+        ArrayList<Employe> sunEmployes = sun.getEmployes();
+        Comparator<Employe> comparator = new Comparator<Employe>() {
+            @Override
+            public int compare(Employe e1, Employe e2) {
+                double diff = e2.getSalaire() - e1.getSalaire();
+                if (diff != 0) {
+                    return (int) diff;
+                }
+                return (int) (e1.getSalaire() - e2.getSalaire());
+            }
+        };
+        Collections.sort(sunEmployes, comparator);
+        for (Employe employe : sunEmployes) {
+            System.out.println(employe.getNom() + " : " + employe.getSalaire());
+        }
+
+        // Afficher les noms de tous les employés des 2 entreprises, triés par ordre alphabétique
+        System.out.println("\nTous les employés des 2 entreprises par ordre alphabétique:");
+        ArrayList<Employe> tousEmployes = new ArrayList<>();
+        tousEmployes.addAll(ibm.getEmployes());
+        tousEmployes.addAll(sun.getEmployes());
+        Collections.sort(tousEmployes);
+        for (Employe employe : tousEmployes) {
+            System.out.println(employe.getNom());
+        }
+    }
+}
+

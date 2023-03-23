@@ -1,0 +1,32 @@
+
+
+
+Exercices
+
+1. La location de cycles
+
+L’objectif est de créer un programme permettant à un loueur de cycles d’afficher les modèles proposés à la location et les tarifs pratiqués.
+
+Des vélos, des gyropodes et des gyroroues sont proposés à la location. Pour chacun, il est nécessaire de connaître sa marque,
+son modèle ainsi que sa date d’achat. Les vélos sont équipés d’un système de changement de vitesse.
+Certains possèdent plus de vitesses que d’autres. Les gyropodes et les gyroroues ont une certaine autonomie en kilomètres.
+En raison de son guidon, le gyropode nécessite que son pilote ait une taille minimale.
+
+Vous pouvez supposer que vous disposez d’une classe LocalDate permettant de gérer la date d’achat.
+a. Les classes et leurs attributs
+
+Définir les classes nécessaires pour représenter les différents cycles proposés à la location.
+Indiquer les différents attributs de ces dernières et le caractère abstrait éventuel de certaines classes.
+b. Les méthodes
+
+Il est nécessaire de connaître le tarif de location de n’importe quel cycle.
+
+cycle
+tarif de location à l’heure
+vélo
+4 € 90
+gyroroue
+18 € 90
+gyropode
+29 € 90
+Ajouter aux classes précédentes les méthodes abstraites et concrètes nécessaires pour cela. Ajouter également un constructeur...
